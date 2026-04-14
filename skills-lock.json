@@ -1,16 +1,6 @@
 {
   "version": 1,
   "skills": {
-    "create-skill": {
-      "source": "siviter-xyz/dot-agent",
-      "sourceType": "github",
-      "computedHash": "117464d5a01acfbf3c7d3939a90df78e2196025f545bdded831aa4aa63a80080"
-    },
-    "customaize-agent:create-skill": {
-      "source": "neolabhq/context-engineering-kit",
-      "sourceType": "github",
-      "computedHash": "4b2a9813282b42e247620b551f1384dee9ff8759f7b058e888e8689ebd347015"
-    },
     "find-skills": {
       "source": "vercel-labs/skills",
       "sourceType": "github",
