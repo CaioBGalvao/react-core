@@ -12,18 +12,18 @@ Best practices for structuring and managing data flow.
 
 Before deciding *how* to manage state, identify *what category* it belongs to:
 
-1.  **Local State**: Data used by one or a few components (e.g., a toggle). Handle with `useState`.
-2.  **Shared State**: Data used by multiple distant components (e.g., user profile). Handle with **Composition** first, then **Context**.
-3.  **Remote State**: Data from a server (e.g., API response). Handle with **React 19 Actions** (`useActionState`) or the `use` API. Avoid manual `useEffect` fetching if possible.
-4.  **URL State**: Data stored in the address bar (e.g., filters, search). Use **URL params** as the source of truth to ensure bookmarking and "Back" button support.
+1. **Local State**: Data used by one or a few components (e.g., a toggle). Handle with `useState`.
+2. **Shared State**: Data used by multiple distant components (e.g., user profile). Handle with **Composition** first, then **Context**.
+3. **Remote State**: Data from a server (e.g., API response). Handle with **React 19 Actions** (`useActionState`) or the `use` API. Avoid manual `useEffect` fetching if possible.
+4. **URL State**: Data stored in the address bar (e.g., filters, search). Use **URL params** as the source of truth to ensure bookmarking and "Back" button support.
 
 #### 1. Principles of State Structure
 
 - **Group Related State**: If two state variables always update together, merge them into an object.
 - **Avoid Redundant State**: If you can calculate a value from props or other state, **calculate it during render**.
 - **Avoid Contradictory State**: Instead of `isLoading` and `isError`, use a `status` variable.
-- **Avoid Duplication (Single Source of Truth)**: Never mirror props or other state into a new `useState`. This creates a "Source of Truth" bug where the local state becomes out of sync with the parent. 
-    - *Exception:* When the prop is only used as an **initial seed** and the component intentionally forks from the parent (e.g., a "Reset" form). In this case, use the name `initialValue` for the prop to clarify intent.
+- **Avoid Duplication (Single Source of Truth)**: Never mirror props or other state into a new `useState`. This creates a "Source of Truth" bug where the local state becomes out of sync with the parent.
+  - *Exception:* When the prop is only used as an **initial seed** and the component intentionally forks from the parent (e.g., a "Reset" form). In this case, use the name `initialValue` for the prop to clarify intent.
 - **Lazy Initializer**: For expensive one-time initializations, pass a function to `useState`: `useState(() => createComplexObject())`. This prevents the expensive logic from running on every re-render.
 
 #### 2. Lifting State Up
@@ -39,17 +39,15 @@ Before deciding *how* to manage state, identify *what category* it belongs to:
 #### 4. Reducer Pattern (`useReducer`)
 
 - Use when state logic is complex or involves multiple sub-values.
-- Decouples _what happened_ (actions) from _how the state updates_ (reducer logic).
+- Decouples **what happened** (actions) from **how the state updates** (reducer logic).
 
 #### 5. Context Pattern
 
+##### 🔗 State: Contexto & Relacionados
 
-
-##### 🔗 Contexto & Relacionados
-
-- **Mindset**: [UI as a Snapshot](../mindset/ui-as-a-snapshot.md)
-- **Mindset**: [Composition Architecture](../mindset/composition-architecture.md)
-- **Reference**: [Hooks Reference](../references/hooks.md)
+- **Mindset**: [UI as a Snapshot](./architecture-and-mindset.md)
+- **Mindset**: [Composition Architecture](./architecture-and-mindset.md)
+- **Reference**: [Hooks Reference](./hooks.md)
 
 
 ## From: effects-synchronization.md
@@ -65,6 +63,8 @@ How to manage side effects and keep your components in sync with external system
 
 #### 2. The Golden Rule: "You Might Not Need an Effect"
 
+- **Use `useEffect` only for synchronization with external systems** (APIs, DOM, non-React widgets).
+- **If you can calculate it during render** from existing props or state, **do not** use `useEffect`.
 - **Don't use Effects to transform data for rendering**: Do it in the function body.
 - **Don't use Effects to handle user events**: Use the event handler.
 - **Don't use Effects to reset state**: Use a `key`.
@@ -80,10 +80,10 @@ Effects (and other hooks) are "closures" that capture props and state at the mom
 
 - Effects have a different lifecycle: they **start** (mount/update) and **stop** (next update/unmount).
 - Always return a cleanup function to:
-    - Abort fetch requests.
-    - Clear timers/intervals.
-    - Unsubscribe from websockets/events.
-    - Reset non-React UI states.
+  - Abort fetch requests.
+  - Clear timers/intervals.
+  - Unsubscribe from websockets/events.
+  - Reset non-React UI states.
 
 #### 5. Fetching in Effects
 
@@ -118,12 +118,11 @@ export function ChatIndicator() {
 }
 ```
 
+##### 🔗 Effects: Contexto & Relacionados
 
-##### 🔗 Contexto & Relacionados
-
-- **Mindset**: [The Rule of Least Power](../mindset/rule-of-least-power.md)
-- **Mindset**: [Rules of React](../mindset/rules-of-react.md)
-- **Reference**: [Hooks Reference](../references/hooks.md)
+- **Mindset**: [The Rule of Least Power](./architecture-and-mindset.md)
+- **Mindset**: [Rules of React](./architecture-and-mindset.md)
+- **Reference**: [Hooks Reference](./hooks.md)
 
 
 ## From: refs-and-escape-hatches.md
@@ -137,6 +136,7 @@ How to exit the "React model" to interact with external systems or the DOM direc
 While props and state are "declarative" (you describe what the UI should look like), **Refs** are "imperative" (you take action on a specific element). 
 
 Use Refs only when you can't do something declaratively:
+
 - Managing focus, text selection, or media playback.
 - Triggering imperative animations.
 - Integrating with third-party DOM libraries.
@@ -152,7 +152,7 @@ Use Refs only when you can't do something declaratively:
 | Read/Write during the render phase? **NO**. | Read/Write during the render phase? **YES**. |
 
 > [!WARNING]
-> **Do not read or write `ref.current` during rendering.** 
+> **Do not read or write `ref.current` during rendering.**
 > React expects the render function to be pure. Reading or writing refs during rendering makes your component's behavior unpredictable. Only access refs inside `useEffect`, `useLayoutEffect`, or event handlers.
 
 #### 2. Callback Refs (Superior to `useEffect`)
@@ -192,11 +192,10 @@ return <input ref={inputRef} />;
 
 Rarely needed. Use it to customize the instance value that is exposed to parent components when using a ref. Instead of exposing the whole DOM node, you can expose only specific methods (e.g., `.focus()`, `.scrollIntoView()`).
 
+##### 🔗 Refs: Contexto & Relacionados
 
-##### 🔗 Contexto & Relacionados
-
-- **Patterns**: [Performance Optimization](./performance-optimization.md)
-- **Mindset**: [UI as a Snapshot](../mindset/ui-as-a-snapshot.md)
+- **Patterns**: [Performance Optimization](./performance-and-rendering.md)
+- **Mindset**: [UI as a Snapshot](./architecture-and-mindset.md)
 
 
 ## From: compound-components.md
@@ -233,9 +232,9 @@ Instead of passing data, we pass components. Shared state is managed via a hidde
 
 #### 3. Implementation Steps
 
-1.  **Create a Context**: Stores the shared state (e.g., which option is selected).
-2.  **Parent Component**: Provides the Context and manages the state.
-3.  **Child Components**: Consume the Context to display themselves or trigger updates.
+1. **Create a Context**: Stores the shared state (e.g., which option is selected).
+2. **Parent Component**: Provides the Context and manages the state.
+3. **Child Components**: Consume the Context to display themselves or trigger updates.
 
 ##### Basic Example
 
@@ -276,9 +275,9 @@ Select.Option = Option;
 
 #### 4. Why Use This?
 
--   **Implicit State**: The user doesn't have to manually wire up `selected` and `onSelect` for every single option.
--   **Flexibility**: Users can reorder components, wrap them in other divs, or add custom elements anywhere in the tree.
--   **Separation of Concerns**: The parent handles the "how" (logic), while children handle the "what" (display).
+- **Implicit State**: The user doesn't have to manually wire up `selected` and `onSelect` for every single option.
+- **Flexibility**: Users can reorder components, wrap them in other divs, or add custom elements anywhere in the tree.
+- **Separation of Concerns**: The parent handles the "how" (logic), while children handle the "what" (display).
 
 #### 5. Type Safety (TypeScript)
 
@@ -294,11 +293,10 @@ function useSelectContext() {
 }
 ```
 
+##### 🔗 Compound: Contexto & Relacionados
 
-##### 🔗 Contexto & Relacionados
-
--   **Patterns**: [State Management](./state-management.md)
--   **Mindset**: [Composition Architecture](../mindset/composition-architecture.md)
+- **Patterns**: [State Management](./component-patterns.md)
+- **Mindset**: [Composition Architecture](./architecture-and-mindset.md)
 
 
 ## From: custom-hooks.md
@@ -320,8 +318,10 @@ Extract repetitive logic into reusable hooks to keep components clean and focuse
 
 #### 3. Composition Patterns
 
-- **Sharing State vs Logic**: Custom hooks share *logic*, not *state*. Each call to a hook gets its own independent state.
-- **Passing Props**: You can pass reactive values (props, state) to custom hooks. They will re-run when the values change.
+- **Synchronization**: Syncing state with external systems (APIs, DOM) using `useEffect`.
+- **Derived State**: Calculating values during render instead of storing them in state.
+- **Data Flow**: Managing state lifting and inverse data flow (props down, events up).
+- **Custom Hooks**: Encapsulating reusable stateful logic and effects.
 - **Returning Values**: Return what the component needs: values, functions, or objects. Arrays are good for small sets (like `useState`), objects are better for many values.
 
 #### 4. Best Practices
@@ -329,16 +329,16 @@ Extract repetitive logic into reusable hooks to keep components clean and focuse
 - **Only Hooks inside**: Don't put non-hook logic (like API calls directly) inside a hook if it doesn't need to be there; keep them pure.
 - **Avoid deep nesting**: Try not to have hooks calling hooks calling hooks (too many layers of abstraction).
 - **Custom Hook as a Black Box**: The component using it shouldn't care *how* it works, only what goes in and what comes out.
+- **Simplicity**: Ideally, a hook should do one thing.
+- **Purity**: Hooks should be pure relative to their inputs.
+- **Composition**: Larger hooks should be composed of smaller, focused hooks.
 
 #### 5. Performance Debt Warning
 
--   **Re-render Cascades**: If a custom hook returns many pieces of state, and one of them changes, **all** components using that hook will re-render, even if they only use a different (unchanged) part of the returned data.
-    -   *Rule of thumb:* Keep hooks focused. If a hook manages multiple unrelated stateful objects, split it into smaller hooks or use **Composition** to isolate state from expensive UI components.
+- **Re-render Cascades**: If a custom hook returns many pieces of state, and one of them changes, **all** components using that hook will re-render, even if they only use a different (unchanged) part of the returned data.
+  - *Rule of thumb:* Keep hooks focused. If a hook manages multiple unrelated stateful objects, split it into smaller hooks or use **Composition** to isolate state from expensive UI components.
 
+##### 🔗 Custom: Contexto & Relacionados
 
-##### 🔗 Contexto & Relacionados
-
-- **Patterns**: [State Management Patterns](../patterns/state-management.md)
-- **Mindset**: [The Rule of Least Power](../mindset/rule-of-least-power.md)
-
-
+- **Patterns**: [Derived State Patterns](./component-patterns.md)
+- **Mindset**: [The Rule of Least Power](./architecture-and-mindset.md)

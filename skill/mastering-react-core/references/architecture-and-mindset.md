@@ -12,10 +12,10 @@ Building resilient applications by composing small, focused pieces.
 
 Understanding this distinction is the key to advanced React patterns and performance:
 
--   **Component**: The function or class you define (the "blueprint").
--   **Element**: The plain JavaScript object returned by calling the component (the "result").
-    -   *Logic:* When you use `<MyComponent />` in JSX, you are creating an **Element**.
-    -   *Key Insight:* Elements are immutable. If an element is passed from outside a re-rendering component as a prop (like `children`), React can detect that the element's object identity hasn't changed and **skips the entire rendering process** for that subtree. This is why composition is often better than memoization.
+- **Component**: The function or class you define (the "blueprint").
+- **Element**: The plain JavaScript object returned by calling the component (the "result").
+  - *Logic:* When you use `<MyComponent />` in JSX, you are creating an **Element**.
+  - *Key Insight:* Elements are immutable. If an element is passed from outside a re-rendering component as a prop (like `children`), React can detect that the element's object identity hasn't changed and **skips the entire rendering process** for that subtree. This is why composition is often better than memoization.
 
 #### 1. Composition over Inheritance
 
@@ -40,28 +40,26 @@ Understanding this distinction is the key to advanced React patterns and perform
   2. **Context**: Use for data needed by a deep sub-tree.
 
 ##### Composition-Proof
+
 - **Avoid `React.cloneElement()`**: It breaks with Server Components, `React.lazy`, and `React.memo` because it requires a "live" React element.
-- **Bulletproof Alternative**: Use **Context**. It decouples the parent from children types and works across all component boundaries (see [Composition-Proof](../references/bulletproof-examples.md#5-composition-proof)).
+- **Bulletproof Alternative**: Use **Context**. It decouples the parent from children types and works across all component boundaries (see [Composition-Proof](./bulletproof-examples.md#5-composition-proof)).
 
 #### 5. Composition Across Boundaries (Fractal Islands)
 
 A major advantage of the React composition model is that it is **fractal**. You can nest components from different environments:
 
-1.  **The Slot Pattern**: A Client Component (with `'use client'`) can accept any JSX as `children` or other "slots" (props).
-2.  **Server Components as Slots**: You can pass a **Server Component** (which has direct access to data) into a slot of a **Client Component**.
-3.  **Result**: The Client Component manages the interactive "shell," while the Server Component handles the data-heavy content inside it. This avoids "prop drilling" serialized data across the boundary.
+1. **The Slot Pattern**: A Client Component (with `'use client'`) can accept any JSX as `children` or other "slots" (props).
+2. **Server Components as Slots**: You can pass a **Server Component** (which has direct access to data) into a slot of a **Client Component**.
+3. **Result**: The Client Component manages the interactive "shell," while the Server Component handles the data-heavy content inside it. This avoids "prop drilling" serialized data across the boundary.
 
 > [!IMPORTANT]
 > This works because the Server Component is rendered *before* the Client Component. The Client Component just receives the result (the "Element") and doesn't need to know how it was rendered.
 
+##### 🔗 Architecture: Contexto & Relacionados
 
-
-##### 🔗 Contexto & Relacionados
-
-- **Pattern**: [Thinking in React](../patterns/thinking-in-react.md)
-- **Mindset**: [UI as a Snapshot](../mindset/ui-as-a-snapshot.md)
-- **Reference**: [Components Reference](../references/components.md)
-
+- **Pattern**: [Thinking in React](./architecture-and-mindset.md)
+- **Mindset**: [UI as a Snapshot](./architecture-and-mindset.md)
+- **Reference**: [Components Reference](./components.md)
 
 ## From: rules-of-react.md
 
@@ -92,13 +90,11 @@ The foundational rules that allow React to optimize your UI and ensure professio
 - **Only Call Hooks from React Functions**: components or custom hooks.
 - **Why?**: React relies on the call order of Hooks to associate state with the component.
 
+##### 🔗 Rules: Contexto & Relacionados
 
-##### 🔗 Contexto & Relacionados
-
-- **Pattern**: [Performance Optimization](../patterns/performance-optimization.md)
-- **Reference**: [Hooks Reference](../references/hooks.md)
-- **Philosophy**: [The UI Runtime](../mindset/ui-as-a-snapshot.md)
-
+- **Pattern**: [Performance Optimization](./performance-and-rendering.md)
+- **Reference**: [Hooks Reference](./hooks.md)
+- **Philosophy**: [The UI Runtime](./architecture-and-mindset.md)
 
 ## From: ui-as-a-snapshot.md
 
@@ -126,13 +122,11 @@ Understanding how React synchronizes the UI with your state.
 
 - You don't need to manually update elements. When the state changes, React automatically re-triggers the snapshot cycle.
 
+##### 🔗 Snapshot: Contexto & Relacionados
 
-##### 🔗 Contexto & Relacionados
-
-- **Pattern**: [Thinking in React](../patterns/thinking-in-react.md)
-- **Pattern**: [State Management](../patterns/state-management.md)
-- **Mindset**: [Composition Architecture](../mindset/composition-architecture.md)
-
+- **Pattern**: [Thinking in React](./architecture-and-mindset.md)
+- **Pattern**: [State Management](./component-patterns.md)
+- **Mindset**: [Composition Architecture](./architecture-and-mindset.md)
 
 ## From: thinking-in-react.md
 
@@ -155,7 +149,7 @@ The fundamental process of building apps with React.
 - Ask three questions about each piece of data:
     1. Does it remain unchanged over time? If so, it’s not state.
     2. Is it passed in from a parent via props? If so, it’s not state.
-    3. **Can you compute it** based on existing state or props? If so, it is definitely _not_ state!
+    3. **Can you compute it** based on existing state or props? If so, it is definitely *not* state!
 
 #### 4. Identify Where Your State Should Live
 
@@ -168,11 +162,8 @@ The fundamental process of building apps with React.
 
 - Pass update functions (like `onToggleItem`) down from the parent to child components so they can trigger state changes up the tree.
 
+##### 🔗 Thinking: Contexto & Relacionados
 
-##### 🔗 Contexto & Relacionados
-
-- **Mindset**: [UI as a Snapshot](../mindset/ui-as-a-snapshot.md)
-- **Mindset**: [Composition Architecture](../mindset/composition-architecture.md)
-- **Pattern**: [State Management](../patterns/state-management.md)
-
-
+- **Mindset**: [UI as a Snapshot](./architecture-and-mindset.md)
+- **Mindset**: [Composition Architecture](./architecture-and-mindset.md)
+- **Pattern**: [State Management](./component-patterns.md)

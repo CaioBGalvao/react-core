@@ -5,6 +5,7 @@ Detailed bad/good code examples for each of the nine bulletproof patterns.
 ---
 
 ## 1. Server-Proof
+
 Browser APIs crash during SSR. Move them into `useEffect`.
 
 ```tsx
@@ -21,6 +22,7 @@ useEffect(() => {
 ---
 
 ## 2. Hydration-Proof
+
 The server renders initial state, but the client hydrates with different values (e.g., from `localStorage`), causing visual flashes. Inject a **synchronous inline script** in the `<head>` using `dangerouslySetInnerHTML` to set a DOM attribute (like `dataset`) *before* React hydration.
 
 ```tsx
@@ -38,11 +40,13 @@ The server renders initial state, but the client hydrates with different values 
   }} 
 />
 ```
+
 This ensures the DOM is updated with the correct styles **before** the first paint, avoiding the flash-of-wrong-content that happens when `useEffect` corrects the value after paint.
 
 ---
 
 ## 3. Instance-Proof
+
 Multiple instances with hardcoded IDs conflict. Use `useId()`.
 
 ```tsx
@@ -63,6 +67,7 @@ return (
 ---
 
 ## 4. Concurrent-Proof
+
 Concurrent rendering can trigger multiple fetches for the same data. Deduplicate them to ensure stability and performance.
 
 ```tsx
@@ -92,6 +97,7 @@ function UserAvatar({ id }: { id: string }) {
 ---
 
 ## 5. Composition-Proof
+
 `React.cloneElement()` fails with Server Components, lazy-loaded components, or memo. Use Context.
 
 ```tsx
@@ -120,6 +126,7 @@ function Tab({ index, children }: TabProps) {
 ---
 
 ## 6. Portal-Proof
+
 Event listeners on `window` fail in portals, iframes, pop-out windows. Use the component's actual window via its DOM ref.
 
 ```tsx
@@ -144,6 +151,7 @@ return <div ref={ref}>...</div>
 ---
 
 ## 7. Transition-Proof
+
 View Transitions don't animate without `startTransition()`.
 
 ```tsx
@@ -160,6 +168,7 @@ function handleNavigate() {
 ---
 
 ## 8. Activity-Proof
+
 DOM-level side effects (like `<style>` tags) persist globally even when hidden by `<Activity>`. Use `useLayoutEffect` to disable them.
 
 ```tsx
@@ -183,6 +192,7 @@ return <style ref={ref}>{css}</style>
 ---
 
 ## 9. Future-Proof
+
 `useMemo` is only a performance hint — React may discard cached values. Use `useState` with an initializer for values that must persist.
 
 ```tsx
@@ -194,6 +204,7 @@ const [stableId] = useState(() => crypto.randomUUID())
 ```
 
 **When to use which:**
+
 - `useMemo`: Recomputable values where recalculation is just expensive (derived data, filtered lists)
 - `useState` initializer: Values where identity/stability matters (IDs, subscriptions, one-time setup)
 
@@ -201,6 +212,6 @@ const [stableId] = useState(() => crypto.randomUUID())
 
 ### 🔗 Contexto & Relacionados
 
-- **Pattern**: [Bulletproof Patterns](../patterns/bulletproof.md)
-- **Mindset**: [SSR and Hydration](../mindset/ssr-hydration.md)
-- **Reference**: [Hooks Reference](../references/hooks.md)
+- **Pattern**: [Bulletproof Patterns](./bulletproof.md)
+- **Mindset**: [SSR and Hydration](./performance-and-rendering.md)
+- **Reference**: [Hooks Reference](./hooks.md)

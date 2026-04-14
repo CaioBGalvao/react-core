@@ -100,7 +100,7 @@ Instead of scanning scattered patterns, load the specific conceptual bundle you 
 
 Core Concepts & Architecture:
 
-- `references/architecture-and-mindset.md` - For Server/Client boundaries, composition over memoization, mental models (`ui-as-a-snapshot`), and rule-of-least-power.
+- `references/architecture-and-mindset.md` - For Server/Client boundaries, composition over memoization, and mental models (`ui-as-a-snapshot`).
 
 Implementation Patterns:
 
