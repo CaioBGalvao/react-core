@@ -1,8 +1,14 @@
 # Bulletproof Component Patterns
 
-Nine patterns that ensure React components survive real-world conditions beyond the happy path — SSR, hydration, concurrent rendering, portals, and more.
+This document consolidates references for bulletproof component patterns.
 
-## Quick Rules
+## From: bulletproof.md
+
+### Bulletproof Component Patterns
+
+Eleven patterns that ensure React components survive real-world conditions beyond the happy path — SSR, hydration, concurrent rendering, portals, compiler optimizations, and security.
+
+#### Quick Rules
 
 | # | Pattern | Rule |
 |---|---------|------|
@@ -15,8 +21,10 @@ Nine patterns that ensure React components survive real-world conditions beyond 
 | 7 | **Transition-Proof** | Wrap state updates in `startTransition()` to enable View Transition API animations. |
 | 8 | **Activity-Proof** | Use `useLayoutEffect` to disable DOM side effects (e.g., `<style>` tags) when hidden by `<Activity>`. |
 | 9 | **Future-Proof** | Use `useState(() => value)` for stable identity. `useMemo` is only a performance hint — React may discard it. |
+| 10| **Compiler-Proof** | Never mutate props, state, or hooks output during render. Keep components pure so the **React Compiler** can optimize them. |
+| 11| **Security-Proof** | Use Taint APIs (`experimental_taintUniqueValue`) in Server Components to ensure sensitive data is never serialized to the client. |
 
-## Checklist
+#### Checklist
 
 When building a reusable React component, verify:
 
@@ -29,8 +37,10 @@ When building a reusable React component, verify:
 - [ ] State updates wrapped in `startTransition()` where needed (transition-proof)
 - [ ] DOM side effects respect `<Activity>` visibility (activity-proof)
 - [ ] Stable values use `useState` initializer, not `useMemo` (future-proof)
+- [ ] Inputs (props/state) are not mutated during render (compiler-proof)
+- [ ] Sensitive data is tainted in Server Components (security-proof)
 
-## Present Results to User
+#### Present Results to User
 
 When reviewing a component against these patterns, format as:
 
@@ -46,10 +56,11 @@ When reviewing a component against these patterns, format as:
 1. ...
 ```
 
----
 
-### 🔗 Contexto & Relacionados
+##### 🔗 Contexto & Relacionados
 
 - **Reference**: [Bulletproof Examples](../references/bulletproof-examples.md)
 - **Mindset**: [SSR and Hydration](../mindset/ssr-hydration.md)
 - **Mindset**: [Composition Architecture](../mindset/composition-architecture.md)
+
+

@@ -56,6 +56,12 @@ Technical details for standard and advanced React Hooks, focusing on optimal usa
     - **Standard**: The new way to handle `<form action={...}>`. Replaces the `useState` + manual loading flag pattern entirely.
 - **`useOptimistic`**: Show a different state while an async action is in progress.
 
+## Custom Hooks
+- **Performance Debt**: Custom hooks that combine unrelated state and effects can cause all consumer components to re-render whenever *any* state inside the hook changes.
+    - **Best Practice**: Keep custom hooks focused. Split aggregate hooks into smaller pieces or use **Composition** to isolate stateful logic from expensive UI.
+- **Fantastic Closures**: Hooks capture variables from the render they were called in. Async logic or timers inside a hook might see "stale" values.
+    - **Fix**: Use functional updaters in state (`setCount(c => c + 1)`) or the **`useEffectEvent`** hook (React 19+) for non-reactive logic.
+
 ---
 ### 🔗 Contexto & Relacionados
 - **Mindset**: [Rules of React](../mindset/rules-of-react.md)

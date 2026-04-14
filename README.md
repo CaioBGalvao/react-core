@@ -58,6 +58,9 @@ This repository and skill are informed by industry-leading standards and the inc
 
 *   **Jesco Wuester**: For the foundational "Bulletproof React Components" philosophy. Check out his brilliant [article on Dev.to](https://dev.to/jsco/how-to-build-bulletproof-react-components-mo7).
 *   **Meta & The React Team**: For the official [React Documentation](https://react.dev/), which serves as the primary source of truth for all core concepts and React 19 APIs.
+*   **Nadia Makarevich**: For the indispensable research and deep dives into React performance, re-renders, and composition patterns shared via [Developer Way](https://www.developerway.com/).
+*   **Dominik Dorfmeister (TkDodo)**: For the invaluable insights on React core hooks (useState, useEffect, useCallback), performance mental models, and robust component architecture shared via his [blog](https://tkdodo.eu/blog).
+*   **Dan Abramov**: For the deep architectural insights into React Server Components (RSC) and the "Two Reacts" mental model shared via [overreacted.io](https://overreacted.io/).
 
 ---
 
